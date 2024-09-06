@@ -1,0 +1,27 @@
+Package: UroBladR
+Type: Package
+Title: A collection of analysis tools in R, directed towards research in the urothelial cancer field.
+Version: 0.1.0
+Authors@R: person(given = "Adam",
+           family = "Mattsson",
+           role = c("aut", "cre"),
+           email = "adam.mattsson@med.lu.se",
+           comment = c(ORCID = "0000-0002-6318-7912"))
+Maintainer: The package maintainer <adam.mattsson@med.lu.se>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 2.10)
+Imports: 
+    Biobase,
+    dplyr,
+    ggplot2,
+    limma,
+    reshape,
+    tibble,
+    tidyr
+RoxygenNote: 7.3.2
+LazyDataCompression: xz
