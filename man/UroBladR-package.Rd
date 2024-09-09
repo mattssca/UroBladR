@@ -4,9 +4,8 @@
 \name{UroBladR-package}
 \alias{UroBladR}
 \alias{UroBladR-package}
-\title{isoploteR
-Takes an expression matrix and subsets to sample IDs of interest for the selected genes/isoforms.
-Additionally, the function can also return a basic box plot with the returned data.}
+\title{UroBladR
+A collection of analysis tools in R, directed towards research in the urothelial cancer field.}
 \description{
 More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
 }
