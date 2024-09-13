@@ -7,7 +7,7 @@
 get_isos(
   these_sample_ids = NULL,
   these_samples_metadata = NULL,
-  this_data,
+  exp_data,
   annotations,
   my_genes,
   these_isoforms,
@@ -21,42 +21,48 @@ get_isos(
 )
 }
 \arguments{
-\item{these_sample_ids}{Optional, a vector of multiple sample IDs (or a single sample ID as a string)
-that you want results for.}
+\item{these_sample_ids}{Optional, a vector of multiple sample IDs (or a 
+single sample ID as a string) that you want results for.}
 
-\item{these_samples_metadata}{Optional, a metadata table (with sample IDs in a column) to subset
-the return to. If not provided (and if `these_sample_ids` is not provided), the function will
-return all samples.}
+\item{these_samples_metadata}{Optional, a metadata table (with sample IDs in 
+a column) to subset the return to. If not provided (and if `these_sample_ids` 
+is not provided), the function willreturn all samples.}
 
-\item{this_data}{Optional parameter for specifying the expression matrix of interest.
-If not provided, the function will use a bundled data object for this purpose.}
+\item{exp_data}{Required parameter, the expression data set in data frame format 
+with entrez_id in the first column and samples in the following columns.}
 
-\item{annotations}{Gene annotations. A data frame with txID, GeneID, and Symbol as columns.}
+\item{annotations}{Gene annotations. A data frame with txID, GeneID, and 
+Symbol as columns.}
 
-\item{my_genes}{Optional. A list with genes of interest. If provided the function will subset to
+\item{my_genes}{Optional. A list with genes of interest. If provided the 
+function will subset to
 all isoforms for the selected gene(s)}
 
-\item{these_isoforms}{Required if not `my_genes` is provided. A vector of characters with isoforms
+\item{these_isoforms}{Required if not `my_genes` is provided. A vector of 
+characters with isoforms
 of interest in Gene ID format.}
 
-\item{verbose}{Boolean parameter. Set to FALSE to minimize output to console. Default is TRUE.}
+\item{verbose}{Boolean parameter. Set to FALSE to minimize output to console. 
+Default is TRUE.}
 
-\item{to_frac}{Boolean parameter. If TRUE (default), each fraction per isoform for each sample
-will be reported. If `return_plot` is set to TRUE, this parameter will auto-default to TRUE.
-To get back TPM values in the data frame, first set `return_plot = FALSE`.}
+\item{to_frac}{Boolean parameter. If TRUE (default), each fraction per 
+isoform for each sample will be reported. If `return_plot` is set to TRUE, 
+this parameter will auto-default to TRUE. To get back TPM values in the data 
+frame, first set `return_plot = FALSE`.}
 
-\item{return_all}{Boolean parameter. Set to TRUE to return use all sample IDs in the provided
-dataset with `this_data`. Default is FALSE.}
+\item{return_all}{Boolean parameter. Set to TRUE to return use all sample IDs 
+in the provided dataset with `this_data`. Default is FALSE.}
 
-\item{return_plot}{Boolean parameter. Set to TRUE (default) to return box plot for selected
-isoforms and samples.}
+\item{return_plot}{Boolean parameter. Set to TRUE (default) to return box 
+plot for selected isoforms and samples.}
 
-\item{plot_title}{Optional parameter for naming the returned plot (if return_plot = TRUE).}
-
-\item{plot_subtitle}{Optional parameter for adding a subtitle to the returned plot
+\item{plot_title}{Optional parameter for naming the returned plot 
 (if return_plot = TRUE).}
 
-\item{my_color}{}
+\item{plot_subtitle}{Optional parameter for adding a subtitle to the returned 
+plot (if return_plot = TRUE).}
+
+\item{my_color}{Optionally, set the colour for the returned barplot. Default is green.}
 }
 \value{
 A data frame with gene IDs and the corresponding GEX as rows and sample IDs in the columns.
@@ -72,12 +78,17 @@ To ensure compatibility (i.e column names and data types) of annotations and exp
 please see the bunlded data object.
 }
 \examples{
+\dontrun{
 #get samples
-my_samples = colnames(expression_sub)[-1]
+#load packages
+library(reshape2,dplyr, ggplot2, tidyr, tibble)
+
+#get sample IDs
+my_samples = colnames(my_expressions)[-1]
 
 #run function
-these_isos = get_isos(this_data = expression_sub,
-                      annotations = gene_annotations,
+these_isos = get_isos(exp_data = my_expressions,
+                      annotations = gene_annotations, 
                       these_sample_ids = my_samples,
                       these_isoforms = c("ENST00000395080",
                                          "ENST00000237623",
@@ -86,5 +97,6 @@ these_isos = get_isos(this_data = expression_sub,
                                          "ENST00000681973"),
                       plot_title = "SPP1",
                       plot_subtitle = "Isoforms Frequency")
+}
 
 }

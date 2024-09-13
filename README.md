@@ -32,4 +32,4 @@ these_isos = get_isos(this_data = expression_sub,
                       plot_subtitle = "Isoforms Frequency")
                       
 ```
-<img src="/figs/example_plot.png" width="100%" />
+<img src="/man/figures/example_plot.png" width="100%" />
