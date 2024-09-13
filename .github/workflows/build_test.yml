@@ -1,4 +1,4 @@
-name: BiomaesteR Build Check and Tests
+name: UroBladR Build Check and Tests
 
 on:
   pull_request:
@@ -23,9 +23,9 @@ jobs:
       - name: Install BiocManager
         run: Rscript -e "install.packages('BiocManager')"
         
-      - name: Install BiomaesteR
+      - name: Install UroBladR
         run: Rscript -e "devtools::install(repos = BiocManager::repositories())"
 
-      - name: Check BiomaesteR
+      - name: Check UroBladR
         run: Rscript -e "devtools::check(vignettes = FALSE)"
     
