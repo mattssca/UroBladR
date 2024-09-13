@@ -8,46 +8,57 @@
 #' To ensure compatibility (i.e column names and data types) of annotations and expression matrix format,
 #' please see the bunlded data object.
 #'
-#' @param these_sample_ids Optional, a vector of multiple sample IDs (or a single sample ID as a string)
-#' that you want results for.
-#' @param these_samples_metadata  Optional, a metadata table (with sample IDs in a column) to subset
-#' the return to. If not provided (and if `these_sample_ids` is not provided), the function will
-#' return all samples.
-#' @param this_data Optional parameter for specifying the expression matrix of interest.
-#' If not provided, the function will use a bundled data object for this purpose.
-#' @param annotations Gene annotations. A data frame with txID, GeneID, and Symbol as columns.
-#' @param my_genes Optional. A list with genes of interest. If provided the function will subset to
+#' @param these_sample_ids Optional, a vector of multiple sample IDs (or a 
+#' single sample ID as a string) that you want results for.
+#' @param these_samples_metadata  Optional, a metadata table (with sample IDs in 
+#' a column) to subset the return to. If not provided (and if `these_sample_ids` 
+#' is not provided), the function willreturn all samples.
+#' @param exp_data Required parameter, the expression data set in data frame format 
+#' with entrez_id in the first column and samples in the following columns.
+#' @param annotations Gene annotations. A data frame with txID, GeneID, and 
+#' Symbol as columns.
+#' @param my_genes Optional. A list with genes of interest. If provided the 
+#' function will subset to
 #' all isoforms for the selected gene(s)
-#' @param these_isoforms Required if not `my_genes` is provided. A vector of characters with isoforms
+#' @param these_isoforms Required if not `my_genes` is provided. A vector of 
+#' characters with isoforms
 #' of interest in Gene ID format.
-#' @param verbose Boolean parameter. Set to FALSE to minimize output to console. Default is TRUE.
-#' @param to_frac Boolean parameter. If TRUE (default), each fraction per isoform for each sample
-#' will be reported. If `return_plot` is set to TRUE, this parameter will auto-default to TRUE.
-#' To get back TPM values in the data frame, first set `return_plot = FALSE`.
-#' @param return_all Boolean parameter. Set to TRUE to return use all sample IDs in the provided
-#' dataset with `this_data`. Default is FALSE.
-#' @param return_plot Boolean parameter. Set to TRUE (default) to return box plot for selected
-#' isoforms and samples.
-#' @param plot_title Optional parameter for naming the returned plot (if return_plot = TRUE).
-#' @param plot_subtitle Optional parameter for adding a subtitle to the returned plot
+#' @param verbose Boolean parameter. Set to FALSE to minimize output to console. 
+#' Default is TRUE.
+#' @param to_frac Boolean parameter. If TRUE (default), each fraction per 
+#' isoform for each sample will be reported. If `return_plot` is set to TRUE, 
+#' this parameter will auto-default to TRUE. To get back TPM values in the data 
+#' frame, first set `return_plot = FALSE`.
+#' @param return_all Boolean parameter. Set to TRUE to return use all sample IDs 
+#' in the provided dataset with `this_data`. Default is FALSE.
+#' @param return_plot Boolean parameter. Set to TRUE (default) to return box 
+#' plot for selected isoforms and samples.
+#' @param plot_title Optional parameter for naming the returned plot 
 #' (if return_plot = TRUE).
-#' @param my_color
+#' @param plot_subtitle Optional parameter for adding a subtitle to the returned 
+#' plot (if return_plot = TRUE).
+#' @param my_color Optionally, set the colour for the returned barplot. Default is green.
 #'
 #' @return A data frame with gene IDs and the corresponding GEX as rows and sample IDs in the columns.
 #'
 #' @import dplyr tidyr ggplot2 tibble
-#' @rawNamespace import(reshape, except = c(rename, expand))
+#' @rawNamespace import(reshape2, except = c(rename, expand))
 #' @rawNamespace import(stats, except = c(filter, lag))
 #'
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' #get samples
-#' my_samples = colnames(expression_sub)[-1]
+#' #load packages
+#' library(reshape2,dplyr, ggplot2, tidyr, tibble)
+#'
+#' #get sample IDs
+#' my_samples = colnames(my_expressions)[-1]
 #'
 #' #run function
-#' these_isos = get_isos(this_data = expression_sub,
-#'                       annotations = gene_annotations,
+#' these_isos = get_isos(exp_data = my_expressions,
+#'                       annotations = gene_annotations, 
 #'                       these_sample_ids = my_samples,
 #'                       these_isoforms = c("ENST00000395080",
 #'                                          "ENST00000237623",
@@ -56,10 +67,11 @@
 #'                                          "ENST00000681973"),
 #'                       plot_title = "SPP1",
 #'                       plot_subtitle = "Isoforms Frequency")
+#' }
 #'
 get_isos = function(these_sample_ids = NULL,
                     these_samples_metadata= NULL,
-                    this_data,
+                    exp_data,
                     annotations,
                     my_genes,
                     these_isoforms,
@@ -80,7 +92,7 @@ get_isos = function(these_sample_ids = NULL,
   if(is.null(these_sample_ids) && is.null(these_samples_metadata)){
     message("WARNING! You have not provided any sample IDs or metadata to subset return to...")
     message("This function will retreive all sample IDs available in the this_data object...")
-    these_samples = colnames(this_data)[-1]
+    these_samples = colnames(exp_data)[-1]
     if(verbose){
       message(paste0(length(these_samples), " Samples found in the provided dataset..."))
     }
@@ -99,10 +111,10 @@ get_isos = function(these_sample_ids = NULL,
   }
 
   #ensure incoming data is in data frame format
-  this_data = as.data.frame(this_data)
+  this_data = as.data.frame(exp_data)
 
   #get sample IDs from the provided data set
-  data_samples = colnames(this_data)[-1]
+  data_samples = colnames(exp_data)[-1]
 
   #subset to unavailable samples
   not_in_data = setdiff(these_samples, data_samples)
@@ -150,7 +162,7 @@ get_isos = function(these_sample_ids = NULL,
   }
 
   #filter out the isoforms of interest
-  filtered_data = subset(this_data, entrez_id %in% isoforms)
+  filtered_data = subset(exp_data, entrez_id %in% isoforms)
 
   #subset to samples of interest
   filtered_data = dplyr::select(filtered_data, entrez_id, all_of(these_samples))

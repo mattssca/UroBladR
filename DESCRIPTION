@@ -1,6 +1,6 @@
 Package: UroBladR
 Type: Package
-Title: A collection of analysis tools in R, directed towards research in the urothelial cancer field.
+Title: A collection of analysis tools in R, directed towards research in the urothelial cancer field
 Version: 0.1.0
 Authors@R: person(given = "Adam",
            family = "Mattsson",
@@ -17,11 +17,18 @@ Depends:
     R (>= 2.10)
 Imports: 
     Biobase,
+    circlize,
+    ComplexHeatmap,
     dplyr,
     ggplot2,
+    grDevices,
+    grid,
     limma,
-    reshape,
+    openxlsx,
+    reshape2,
+    stats,
     tibble,
-    tidyr
+    tidyr,
+    utils
 RoxygenNote: 7.3.2
 LazyDataCompression: xz

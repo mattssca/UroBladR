@@ -95,3 +95,44 @@ NULL
 #' @usage data(swog_meta)
 #' @format A data frame with 163 rows (samples) and 39 columns (metadata).
 NULL
+
+#' SWOG Predictions.
+#'
+#' Prediction output from running LundTax2023_predict on the SWOG expression set.
+#'
+#' A list of 5.
+#'
+#' \itemize{
+#'  \item data. Expression data.
+#'  \item subtype_scores. Prediction scores related to subtypes.
+#'  \item prediction_7classes. Consensus subtype predictions for 7 class.
+#'  \item prediction_5classes. Consensus subtype predictions for 5 class.
+#'  \item scores. Signature scores.
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @name swog_pred
+#' @usage data(swog_pred)
+#' @format A list of 5.
+NULL
+
+#' Lund Colors.
+#'
+#' Colors used for Lund Taxonomy subtypes.
+#'
+#' A list with 4 elements.
+#' 
+#' \itemize{
+#'  \item lund_colors. Vector of characters, 10.
+#'  \item lund_color_transp. Vector of characters, 10.
+#'  \item stage_colors. Vector of characters, 5.
+#'  \item dataset_colors. Vector of characters, 4.
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @name lund_colors
+#' @usage data(lund_colors)
+#' @format A list of 4.
+NULL
