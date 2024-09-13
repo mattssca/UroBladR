@@ -3,7 +3,6 @@
 export(get_degscore)
 export(get_glmscores)
 export(get_isos)
-export(int_predwrangler)
 export(plot_glmforest)
 export(plot_scores)
 import(Biobase, except = combine)

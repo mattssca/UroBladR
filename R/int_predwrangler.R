@@ -32,8 +32,6 @@
 #'
 #' @import dplyr
 #'
-#' @export
-#'
 #' @examples
 #' #load packages
 #' library(dplyr)
